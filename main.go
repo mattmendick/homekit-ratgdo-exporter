@@ -49,52 +49,52 @@ var (
 	upTime = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_up_time_seconds",
 		Help: "Uptime of the garage door in seconds.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	paired = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_paired",
 		Help: "Indicates if the garage door is paired.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageLightOn = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_light_on",
 		Help: "Indicates if the garage light is on.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageMotion = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_motion",
 		Help: "Indicates if there is motion detected in the garage.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageObstructed = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_obstructed",
 		Help: "Indicates if the garage door is obstructed.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	passwordRequired = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_password_required",
 		Help: "Indicates if a password is required.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	freeHeap = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_free_heap_bytes",
 		Help: "Free heap memory in bytes.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	minHeap = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_min_heap_bytes",
 		Help: "Minimum heap memory in bytes.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	minStack = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_min_stack_bytes",
 		Help: "Minimum stack memory in bytes.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	crashCount = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_crash_count",
 		Help: "Number of crashes.",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageDoorState = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_door_state",
 		Help: "The state of the garage door (0 = Closed, 1 = Open).",
-	}, []string{"location"})
+	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	// Info metric with labels
 	deviceInfo = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "ratgdo_homekit_info",
 		Help: "Garage door device info.",
-	}, []string{"location", "deviceName", "firmwareVersion", "accessoryID", "localIP", "subnetMask", "gatewayIP", "macAddress", "wifiSSID", "wifiRSSI", "garageLockState", "GDOSecurityType"})
+	}, []string{"location", "firmwareVersion", "subnetMask", "gatewayIP", "wifiSSID", "wifiRSSI", "garageLockState", "GDOSecurityType"})
 )
 
 var (
@@ -148,32 +148,28 @@ func fetchData() {
 		return
 	}
 
-	upTime.WithLabelValues(location).Set(float64(status.UpTime))
-	paired.WithLabelValues(location).Set(boolToFloat(status.Paired))
-	garageLightOn.WithLabelValues(location).Set(boolToFloat(status.GarageLightOn))
-	garageMotion.WithLabelValues(location).Set(boolToFloat(status.GarageMotion))
-	garageObstructed.WithLabelValues(location).Set(boolToFloat(status.GarageObstructed))
-	passwordRequired.WithLabelValues(location).Set(boolToFloat(status.PasswordRequired))
-	freeHeap.WithLabelValues(location).Set(float64(status.FreeHeap))
-	minHeap.WithLabelValues(location).Set(float64(status.MinHeap))
-	minStack.WithLabelValues(location).Set(float64(status.MinStack))
-	crashCount.WithLabelValues(location).Set(float64(status.CrashCount))
+	upTime.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(float64(status.UpTime))
+	paired.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(boolToFloat(status.Paired))
+	garageLightOn.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(boolToFloat(status.GarageLightOn))
+	garageMotion.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(boolToFloat(status.GarageMotion))
+	garageObstructed.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(boolToFloat(status.GarageObstructed))
+	passwordRequired.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(boolToFloat(status.PasswordRequired))
+	freeHeap.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(float64(status.FreeHeap))
+	minHeap.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(float64(status.MinHeap))
+	minStack.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(float64(status.MinStack))
+	crashCount.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(float64(status.CrashCount))
 
 	if status.GarageDoorState == "Closed" {
-		garageDoorState.WithLabelValues(location).Set(0)
+		garageDoorState.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(0)
 	} else if status.GarageDoorState == "Open" {
-		garageDoorState.WithLabelValues(location).Set(1)
+		garageDoorState.WithLabelValues(location, status.AccessoryID, status.DeviceName, status.LocalIP, status.MacAddress).Set(1)
 	}
 
 	deviceInfo.With(prometheus.Labels{
 		"location":        location,
-		"deviceName":      status.DeviceName,
 		"firmwareVersion": status.FirmwareVersion,
-		"accessoryID":     status.AccessoryID,
-		"localIP":         status.LocalIP,
 		"subnetMask":      status.SubnetMask,
 		"gatewayIP":       status.GatewayIP,
-		"macAddress":      status.MacAddress,
 		"wifiSSID":        status.WifiSSID,
 		"wifiRSSI":        status.WifiRSSI,
 		"garageLockState": status.GarageLockState,
