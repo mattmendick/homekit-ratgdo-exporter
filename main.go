@@ -47,52 +47,52 @@ type Status struct {
 
 var (
 	upTime = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_up_time_seconds",
+		Name: "homekit_ratgdo_up_time_seconds",
 		Help: "Uptime of the garage door in seconds.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	paired = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_paired",
+		Name: "homekit_ratgdo_paired",
 		Help: "Indicates if the garage door is paired.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageLightOn = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_light_on",
+		Name: "homekit_ratgdo_light_on",
 		Help: "Indicates if the garage light is on.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageMotion = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_motion",
+		Name: "homekit_ratgdo_motion",
 		Help: "Indicates if there is motion detected in the garage.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageObstructed = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_obstructed",
+		Name: "homekit_ratgdo_obstructed",
 		Help: "Indicates if the garage door is obstructed.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	passwordRequired = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_password_required",
+		Name: "homekit_ratgdo_password_required",
 		Help: "Indicates if a password is required.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	freeHeap = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_free_heap_bytes",
+		Name: "homekit_ratgdo_free_heap_bytes",
 		Help: "Free heap memory in bytes.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	minHeap = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_min_heap_bytes",
+		Name: "homekit_ratgdo_min_heap_bytes",
 		Help: "Minimum heap memory in bytes.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	minStack = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_min_stack_bytes",
+		Name: "homekit_ratgdo_min_stack_bytes",
 		Help: "Minimum stack memory in bytes.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	crashCount = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_crash_count",
+		Name: "homekit_ratgdo_crash_count",
 		Help: "Number of crashes.",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	garageDoorState = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_door_state",
+		Name: "homekit_ratgdo_door_state",
 		Help: "The state of the garage door (0 = Closed, 1 = Open).",
 	}, []string{"location", "accessoryID", "deviceName", "localIP", "macAddress"})
 	// Info metric with labels
 	deviceInfo = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "ratgdo_homekit_info",
+		Name: "homekit_ratgdo_info",
 		Help: "Garage door device info.",
 	}, []string{"location", "firmwareVersion", "subnetMask", "gatewayIP", "wifiSSID", "wifiRSSI", "garageLockState", "GDOSecurityType"})
 )
