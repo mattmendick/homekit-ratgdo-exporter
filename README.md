@@ -21,9 +21,37 @@ Usage of ./homekit-ratgdo-exporter:
 ```
 
 I run it like this:
-`./homekit-ratgdo-exporter -port 9987 -json-address "http://10.10.10.10/status.json"`
+```
+./homekit-ratgdo-exporter -port 9987 -json-address "http://10.10.10.10/status.json"
+```
 
-It's helpful to give your ratgdo controller the same IP address or a name on your network.
+It's helpful to give your ratgdo controller the same IP address via DHCP or a name on your network. Configure this in your router.
+
+## systemd unit
+I run this on a linux box I have with systemd. Here is my systemd file in case this is helpful. I'm not sure this is a well written systemd unit file, but it's the one I used. I wrote this file to `/etc/systemd/system/ratgdo-homekit-exporter.service`.
+```
+[Unit]
+Description=Homekit Ratgdo Exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/home/mattmendick/Projects/homekit-ratgdo-exporter/homekit-ratgdo-exporter -port 9987 -json-address "http://10.10.10.10/status.json"
+SyslogIdentifier=homekit-ratgdo-exporter
+
+[Install]
+WantedBy=default.target
+```
+
+Note: `/home/mattmendick/Projects/homekit-ratgdo-exporter/` is the directory I cloned the repo into.
+
+I enabled it with `sudo systemctl enable ratgdo-homekit-exporter.service`
+
+I then started it with `sudo systemctl start ratgdo-homekit-exporter.service`
+
+And checked the logs `journalctl -u ratgdo-homekit-exporter.service`
 
 ## AI written
-I used ChatGPT to help write this, so if there's anything wonky about it or a bit strange, perhaps that's why. PRs welcome if for some reason you come across this repo.
+I used ChatGPT to help write this, so if there's anything wonky about it or a bit strange, perhaps that's why. PRs welcome if for some reason you come across this repo and think something could be better.
