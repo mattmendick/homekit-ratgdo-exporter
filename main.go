@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -23,7 +24,7 @@ type Status struct {
 	GatewayIP        string `json:"gatewayIP"`
 	MacAddress       string `json:"macAddress"`
 	WifiSSID         string `json:"wifiSSID"`
-	GDOSecurityType  string `json:"GDOSecurityType"`
+	GDOSecurityType  int	`json:"GDOSecurityType"`
 	GarageDoorState  string `json:"garageDoorState"`
 	GarageLockState  string `json:"garageLockState"`
 	GarageLightOn    bool   `json:"garageLightOn"`
@@ -210,7 +211,7 @@ func fetchData() (int, error) {
 		"gatewayIP":       status.GatewayIP,
 		"wifiSSID":        status.WifiSSID,
 		"garageLockState": status.GarageLockState,
-		"GDOSecurityType": status.GDOSecurityType,
+		"GDOSecurityType": fmt.Sprintf("%d",status.GDOSecurityType),
 	}).Set(1)
 
 	return resp.StatusCode, nil
