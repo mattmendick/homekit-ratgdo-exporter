@@ -24,7 +24,7 @@ type Status struct {
 	GatewayIP        string `json:"gatewayIP"`
 	MacAddress       string `json:"macAddress"`
 	WifiSSID         string `json:"wifiSSID"`
-	GDOSecurityType  int	`json:"GDOSecurityType"`
+	GDOSecurityType  int	`json:"-"`
 	GarageDoorState  string `json:"garageDoorState"`
 	GarageLockState  string `json:"garageLockState"`
 	GarageLightOn    bool   `json:"garageLightOn"`
